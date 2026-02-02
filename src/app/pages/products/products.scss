@@ -1,0 +1,22 @@
+@use 'variables' as *;
+.Products-wrap {
+  min-height: 97vh;
+  padding: 24px;
+  box-sizing: border-box;
+  background-color: $bg-main;
+  border-radius: 6px;
+  color: $text-primary;
+
+  .Products-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+
+    h1 {
+      font-size: 20px;
+      margin: 0;
+      color: $text-primary;
+    }
+  }
+}

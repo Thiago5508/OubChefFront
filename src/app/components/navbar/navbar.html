@@ -1,0 +1,21 @@
+<nav class="navbar">
+  <div class="left">
+    <h1 class="title">Oub<span>Chef</span></h1>
+  </div>
+
+  <div class="hamburger" (click)="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <ul class="nav-links" [class.active]="menuOpen">
+    <li><a routerLink="/home">Pedidos</a></li>
+    <li><a routerLink="/category">Categorias</a></li>
+    <li><a routerLink="/products">Produto</a></li>
+    <li><a routerLink="/contato">Adicionais</a></li>
+    <li><a routerLink="/contato">Tamanhos</a></li>
+    <li><a routerLink="/contato">Mesas</a></li>
+    <li><a routerLink="/contato">Gorgetas</a></li>
+  </ul>
+</nav>

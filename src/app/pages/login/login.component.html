@@ -1,0 +1,26 @@
+<div class="login-container">
+
+  <h1 class="title">Oub<span>Chef</span></h1>
+  <p class="subtitle">Entre na sua conta</p>
+
+  <form (ngSubmit)="login()" class="form-box">
+
+    <div class="input-group">
+      <label>Email</label>
+      <input type="text" [(ngModel)]="loginField" name="email" required>
+    </div>
+
+    <div class="input-group">
+      <label>Senha</label>
+      <input type="password" [(ngModel)]="password" name="password" required>
+    </div>
+
+    <button class="btn" [disabled]="loading">
+      {{ loading ? 'Entrando...' : 'Entrar' }}
+    </button>
+
+    <p class="error">{{ error }}</p>
+
+  </form>
+
+</div>

@@ -1,0 +1,74 @@
+<section class="home-wrap">
+  <header class="home-header">
+      <h1>OubChef — Home</h1>
+      <div class="actions">
+        
+        <button class="logout" (click)="logout()">Sair</button>
+      </div>
+  </header>
+
+  <main class="home-main">
+    <div class="pedidos">
+      <h2>Pedidos</h2>
+      <button class="refresh" (click)="refresh()" [disabled]="loading()">Atualizar</button>
+    </div>
+    @if (loading()) {
+      <div>Carregando pedidos aguarde...</div>
+    } @else {
+      <div class="orders">
+        @for (order of orders(); track order._id) {
+          <div class="order-card" (click)="toggleOrder(order._id)">
+
+            <div class="order-header">
+              <div>
+                <h3>{{ order.customerName }}</h3>
+                <div class="order-add">
+                  <span>Mesa: {{ order.table.number }}{{ order.table.letter }}</span>
+                  <span><strong>Status:</strong> {{ order.active ? 'Ativo' : 'Finalizado' }}</span>
+                </div>
+              </div>
+              @if (order.total !== 0) {
+                <span>
+                  <strong>Total:</strong> R$ {{ order.total }}
+                </span>
+              }
+            </div>
+
+            @if (expandedOrderId() === order._id) {
+              <div class="order-details">
+                 @for (item of itemsByOrder()[order._id]; track item._id) {
+                    <div class="item">
+                      <strong>Item</strong>
+
+                      @for (product of item.products; track product._id) {
+                        <span>{{ product.name }}</span>
+                      }
+
+                      <span>Ingredientes:</span>
+                      @for (ingredient of item.ingredients; track ingredient._id) {
+                        <span>{{ ingredient.name }}</span>
+                      }
+                         <span>Tamanho:</span>
+                        <span>{{ item.size.name }}</span>
+                    </div>
+                      <div>
+                         <span>preço por item: </span>
+                        <span>{{item.price}}</span>
+                      </div>
+                      <div>
+                        <span>Quantidade: </span>
+                        <span>{{item.quantity}}</span>
+                      </div>
+                  }
+                    <div class="order-total">
+                      <strong>Valor parcial :</strong>
+                      <span>{{ getOrderTotal(order._id) | currency:'BRL':'symbol':'1.2-2'}}</span>
+                    </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </main>
+</section>

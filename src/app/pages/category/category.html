@@ -1,0 +1,42 @@
+<section class="category-wrap">
+  <header class="category-header">
+      <h1>OubChef — Categorias</h1>
+      <div class="actions">
+      </div>
+  </header>
+
+  <main class="category-main">
+    <div class="pedidos">
+      <h2>Categorias</h2>
+      <button class="refresh" (click)="refresh()" [disabled]="loading()">Atualizar</button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="createCategory()">
+        <label for="category">Adicionar categoria</label>
+
+        <input 
+            type="text"
+            id="category"
+            formControlName="category"
+            placeholder="Nome da nova  categoria" />
+            
+        <button type="submit" [disabled]="form.invalid || loading()"> Adicionar</button>
+    </form>
+
+    @if (loading()) {
+        <div>Carregando pedidos aguarde...</div>
+        } @else {
+            <div class="orders">
+                @for (categories of categories(); track categories._id) {
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div>
+                                <h3>{{categories.name }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+  </main>
+</section>
