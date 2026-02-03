@@ -17,7 +17,8 @@ type LoginPayload = {
 
 export class Auth {
 
-  private apiUrl = 'http://localhost:3333'; // seu backend
+  private apiUrl = 'https://oub-chefback.vercel.app'; // seu backend
+  // https://oub-chefback.vercel.app/
 
   constructor(private http: HttpClient) {}
 
