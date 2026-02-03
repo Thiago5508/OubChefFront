@@ -1,4 +1,5 @@
 @use 'variables' as *;
+@use 'sass:color';
 .Products-wrap {
   min-height: 97vh;
   padding: 24px;
@@ -17,6 +18,184 @@
       font-size: 20px;
       margin: 0;
       color: $text-primary;
+    }
+
+    .logout {
+      background: transparent;
+      border: 1px solid $accent;
+      color: $accent;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: $accent;
+        color: #fff;
+      }
+    }
+  }
+
+  .product-main {
+    background: $bg-soft;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+
+    h2 {
+      color: $text-secondary;
+      margin-bottom: 16px;
+    }
+
+    .pedidos{
+      display: flex;
+      gap:10px;
+      margin-bottom: 10px;
+    }
+    .pedidos button{
+      background: transparent;
+      border: 1px solid $accent;
+      color: $accent;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .orders {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+
+      .order-card {
+        background: $bg-card;
+        border: 1px solid $border-soft;
+        border-radius: 10px;
+        padding: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          border-color: $accent;
+          box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+        }
+      }
+
+      .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h3 {
+          margin: 0;
+          font-size: 20px;
+          color: $text-primary;
+        }
+
+        .order-add{
+          display: flex;
+          gap: 1vw;
+        }
+      }
+
+      .order-details {
+        margin-top: 14px;
+        padding-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .item{
+          display: flex;
+          gap: 5px;
+          border-top: 1px solid $border-soft;
+        }
+
+        p {
+          color: $text-secondary;
+          font-size: 14px;
+        }
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding: 16px;
+      background: $bg-card;
+      border: 1px solid $border-soft;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+      label {
+        font-weight: 600;
+        color: $text-secondary;
+        margin-bottom: 4px;
+      }
+
+      input{
+        padding: 10px 12px;
+        border: 1px solid $border-soft;
+        border-radius: 6px;
+        font-size: 14px;
+        color: $text-primary;
+        background: $bg-soft;
+        transition: border 0.2s ease, box-shadow 0.2s ease;
+
+        &:focus {
+          border-color: $accent;
+          outline: none;
+          box-shadow: 0 0 0 2px rgba($accent, 0.2);
+        }
+
+        &::placeholder {
+          color: $text-secondary;
+        }
+      }
+      select{
+        padding: 10px 12px;
+        border: 1px solid $border-soft;
+        border-radius: 6px;
+        font-size: 14px;
+        color: $text-primary;
+        background: $bg-soft;
+        transition: border 0.2s ease, box-shadow 0.2s ease;
+
+        &:focus {
+          border-color: $accent;
+          outline: none;
+          box-shadow: 0 0 0 2px rgba($accent, 0.2);
+        }
+
+        &::placeholder {
+          color: $text-secondary;
+        }
+      }
+
+      button[type="submit"] {
+        align-self: flex-start;
+        padding: 10px 18px;
+        font-weight: 600;
+        font-size: 14px;
+        border-radius: 6px;
+        border: 1px solid $accent;
+        background-color: $accent;
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover:not(:disabled) {
+          background-color: color.scale($accent, $lightness: -10%);
+          border-color: color.scale($accent, $lightness: -10%);
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
     }
   }
 }

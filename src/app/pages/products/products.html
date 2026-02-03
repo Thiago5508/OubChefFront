@@ -4,7 +4,53 @@
       <div class="actions"></div>
   </header>
 
-  <main class="home-main">
-    
+  <main class="product-main">
+    <div class="pedidos">
+      <h2>Produtos</h2>
+      <button class="refresh" (click)="refresh()" [disabled]="loading()">Atualizar</button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="createCProduct()">
+        <label>Adicionar Produto</label>
+
+          <input 
+            type="text"
+            formControlName="name"
+            placeholder="Nome do novo produto" />
+
+          <select formControlName="category">
+            <option value="">Selecione a categoria</option>
+            @for (cat of categories(); track cat._id) {
+              <option [value]="cat._id">{{ cat.name }}</option>}
+          </select>
+
+          <input 
+            type="Number"
+            formControlName="basePrice"
+            placeholder="Preço base do produto " />
+
+          <input 
+            type="text"
+            formControlName="description"
+            placeholder="Breve descrição do produto " />
+            
+        <button type="submit" [disabled]="form.invalid || loading()"> Adicionar</button>
+    </form>
+
+    @if (loading()) {
+        <div>Carregando pedidos aguarde...</div>
+        } @else {
+            <div class="orders">
+                @for (products of products(); track products._id) {
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div>
+                                <h3>{{products.name }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
   </main>
 </section>
