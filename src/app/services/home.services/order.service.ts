@@ -22,8 +22,6 @@ export interface Waiter{
   name:string;
 }
 
-
-
 @Injectable({
   providedIn: 'root'
 })

@@ -2,6 +2,7 @@
   <header class="category-header">
       <h1>OubChef — Categorias</h1>
       <div class="actions">
+        <button class="logout" (click)="logout()">Sair</button>
       </div>
   </header>
 
@@ -34,9 +35,15 @@
                                 <h3>{{categories.name }}</h3>
                             </div>
                         </div>
+                    @if (expandedCategoryId() === categories._id) {
+                        <div class="order-details">
+                                
+                        </div>
+                    }
                     </div>
                 }
             </div>
+            
         }
   </main>
 </section>

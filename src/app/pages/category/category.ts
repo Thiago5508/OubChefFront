@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { CreateCategoryService } from '../../services/category.services/createcategory.service';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Auth } from '../../services/auth';
+import { Router } from '@angular/router';
 
 type CategoryForm = {
   category: FormControl<string>;
@@ -20,7 +22,7 @@ type CategoryForm = {
 export class CategoryComponent implements OnInit{
   loading: WritableSignal<boolean> = signal(true);
   categories: WritableSignal<Category[]> = signal([]);
-  expandedOrderId = signal<string | null>(null);
+  expandedCategoryId = signal<string | null>(null);
 
   
 
@@ -28,6 +30,8 @@ export class CategoryComponent implements OnInit{
 
   constructor(
     private listCategory: ListCategory,
+    private auth: Auth,
+    private router: Router, 
     private createCategoryService: CreateCategoryService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar
@@ -38,10 +42,10 @@ export class CategoryComponent implements OnInit{
       category:this.fb.nonNullable.control('',{validators:[Validators.required, Validators.minLength(2)]})
     });
 
-    this.loadCategory()
+    this.fetchCategory()
   }
 
-  loadCategory() {
+  fetchCategory() {
     this.loading.set(true);
     this.listCategory.getCategory().subscribe({
       next: (categories) => {
@@ -55,6 +59,15 @@ export class CategoryComponent implements OnInit{
     });
   }
 
+  toggleOrder(categories: string) {
+    this.expandedCategoryId.update((current) =>
+      current === categories ? null : categories
+    );
+     if (this.expandedCategoryId() === categories) {
+    this.fetchCategory();
+    }
+  }
+
   createCategory(){
     if(this.form.invalid)return;
     const name=this.form.controls.category.value
@@ -62,7 +75,7 @@ export class CategoryComponent implements OnInit{
     this.createCategoryService.createCategory(name).subscribe({
       next:(category)=>{
         this.form.reset()
-        this.loadCategory();
+        this.fetchCategory();
         console.log(category)
          this.snackBar.open(`Categoria "${category.name}" criada com sucesso`,'Fechar',
           {duration: 3000,horizontalPosition: 'right',verticalPosition: 'top'});
@@ -72,8 +85,13 @@ export class CategoryComponent implements OnInit{
     })
   }
 
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
+  }
+
   refresh() {
-  this.expandedOrderId.set(null);
-  this.loadCategory()
+    this.expandedCategoryId.set(null);
+  this.fetchCategory()
   }
 }
