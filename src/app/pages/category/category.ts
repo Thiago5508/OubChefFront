@@ -6,6 +6,8 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Auth } from '../../services/auth';
 import { Router } from '@angular/router';
+import { CategoryProps, detailCategory } from '../../services/category.services/detailcategory.service';
+
 
 type CategoryForm = {
   category: FormControl<string>;
@@ -23,7 +25,7 @@ export class CategoryComponent implements OnInit{
   loading: WritableSignal<boolean> = signal(true);
   categories: WritableSignal<Category[]> = signal([]);
   expandedCategoryId = signal<string | null>(null);
-
+  detailcategory = signal<Record<string,CategoryProps[]>>({});
   
 
   form!:FormGroup<CategoryForm>;
@@ -34,7 +36,8 @@ export class CategoryComponent implements OnInit{
     private router: Router, 
     private createCategoryService: CreateCategoryService,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private detailservice: detailCategory,
   ) {}
 
   ngOnInit() {
@@ -58,13 +61,30 @@ export class CategoryComponent implements OnInit{
       }
     });
   }
+  
+  loadCategory(categoryId: string) {
+  if (this.detailcategory()[categoryId]) return;
 
-  toggleOrder(categories: string) {
+  this.detailservice.getDetailCategory(categoryId).subscribe({
+    next: (items) => {
+      this.detailcategory.update((current) => ({
+        ...current,
+        [categoryId]: items
+      }));
+    },
+    error: (err) => {
+      console.error('Erro ao buscar itens', err);
+    }
+  });
+}
+
+
+  toggleOrder(categoryId: string) {
     this.expandedCategoryId.update((current) =>
-      current === categories ? null : categories
+      current === categoryId ? null : categoryId
     );
-     if (this.expandedCategoryId() === categories) {
-    this.fetchCategory();
+     if (this.expandedCategoryId() === categoryId) {
+    this.loadCategory(categoryId);
     }
   }
 

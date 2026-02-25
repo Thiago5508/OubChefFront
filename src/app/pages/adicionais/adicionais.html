@@ -10,7 +10,7 @@
       <button class="refresh" (click)="refresh()" [disabled]="loading()">Atualizar</button>
     </div>
 
-    <form [formGroup]="form" (ngSubmit)="createCProduct()">
+    <form [formGroup]="form" (ngSubmit)="createCIngredient()">
         <label>Adicionar Produto</label>
 
           <input 
@@ -26,7 +26,7 @@
 
           <input 
             type="Number"
-            formControlName="basePrice"
+            formControlName="extraPrice"
             placeholder="Preço base do produto " />
 
           <input 
@@ -38,17 +38,17 @@
     </form>
 
     @if (loading()) {
-        <div>Carregando pedidos aguarde...</div>
+        <div>Carregando ingredients/adicionais aguarde...</div>
         } @else {
             <div class="orders">
-                @for (products of products(); track products._id) {
+                @for (ingredient of ingredients(); track ingredient._id) {
                     <div class="order-card">
                         <div class="order-header">
                             <div>
-                                <h3>{{products.name }}</h3>
-                                <span>R$ {{products.basePrice}} </span>
-                                <span> Descrição: {{products.description}} </span>
-                                <span> Status: {{products.active}}</span>
+                                <h3>{{ingredient.name }}</h3>
+                                <span>R$ {{ingredient.extraPrice}} </span>
+                                <span> Descrição: {{ingredient.description}} </span>
+                                <span> Status: {{ingredient.active}}</span>
                             </div>
                         </div>
                     </div>

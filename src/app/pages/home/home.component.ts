@@ -49,6 +49,7 @@ export class HomeComponent implements OnInit{
       }
     });
   }
+  
   loadItems(orderId: string) {
   if (this.itemsByOrder()[orderId]) return;
 

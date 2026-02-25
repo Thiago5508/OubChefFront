@@ -29,7 +29,7 @@
         } @else {
             <div class="orders">
                 @for (categories of categories(); track categories._id) {
-                    <div class="order-card">
+                    <div class="order-card" (click)="toggleOrder(categories._id)">
                         <div class="order-header">
                             <div>
                                 <h3>{{categories.name }}</h3>
@@ -38,6 +38,13 @@
                     @if (expandedCategoryId() === categories._id) {
                         <div class="order-details">
                                 
+                        @for (Product of detailcategory()[categories._id]; track Product._id) {
+                            <div class="item">
+                            <strong>{{Product.name}}</strong>
+
+                            
+                            </div>
+                        }
                         </div>
                     }
                     </div>

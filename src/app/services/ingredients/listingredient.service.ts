@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 
-export interface Product {
+export interface Ingredient {
   _id: string;
   name: string;
   description: string;
-  basePrice: string;
+  extraPrice: string;
   category: string;
   active:Boolean;
 }
@@ -16,11 +16,11 @@ export interface Product {
   providedIn: 'root'
 })
 
-export class ListProduct{
+export class ListIngredient{
   private readonly apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
   
-  getProduct(): Observable<Product[]>{
-    return this.http.get<Product[]>(`${this.apiUrl}/product/list`)
+  getIngredient(): Observable<Ingredient[]>{
+    return this.http.get<Ingredient[]>(`${this.apiUrl}/ingredient/list`)
   }
 }

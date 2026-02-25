@@ -36,7 +36,7 @@
 
             @if (expandedOrderId() === order._id) {
               <div class="order-details">
-                 @for (item of itemsByOrder()[order._id]; track item._id) {
+                  @for (item of itemsByOrder()[order._id]; track item._id) {
                     <div class="item">
                       <strong>Item</strong>
 

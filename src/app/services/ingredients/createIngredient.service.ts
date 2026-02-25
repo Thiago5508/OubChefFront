@@ -3,24 +3,24 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 
-export interface Product {
-  _id: string;
+export interface Ingredient {
   name: string;
   description: string;
-  basePrice: string;
+  extraPrice: number;
   category: string;
-  active:Boolean;
 }
 
 @Injectable({
   providedIn: 'root'
 })
+export class CreateIngredientService {
 
-export class ListProduct{
   private readonly apiUrl = environment.apiUrl;
+
   constructor(private http: HttpClient) {}
-  
-  getProduct(): Observable<Product[]>{
-    return this.http.get<Product[]>(`${this.apiUrl}/product/list`)
+
+  createIngredient(name: string,description: string,extraPrice: number,category: string): Observable<Ingredient> {
+    const body = { name, description, extraPrice,category };
+    return this.http.post<Ingredient>(`${this.apiUrl}/ingredient/create`, body);
   }
 }

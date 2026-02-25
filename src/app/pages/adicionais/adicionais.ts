@@ -2,61 +2,61 @@ import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { ListProduct, Product } from '../../services/product.services/listproduct.service';
-import { CreateProductService } from '../../services/product.services/createproduct.service';
 import { Category, ListCategory } from '../../services/category.services/listcategory.service';
+import { CreateIngredientService } from '../../services/ingredients/createIngredient.service';
+import { ListIngredient,Ingredient } from '../../services/ingredients/listingredient.service';
 
 
-type ProductForm = {
+type IngredientsForm = {
   name: FormControl<string>;
   category: FormControl<string>;
-  basePrice: FormControl<number | null>;
+  extraPrice: FormControl<number>;
   description: FormControl<string>;
 };
 
 
 @Component({
-  selector: 'app-products',
+  selector: 'app-adicionais',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatSnackBarModule],
-  templateUrl: './products.html',
-  styleUrl: './products.scss',
+  templateUrl: './adicionais.html',
+  styleUrl: './adicionais.scss',
 })
 
-export class ProductsComponent implements OnInit{
+export class AdicionaisComponent implements OnInit{
  loading: WritableSignal<boolean> = signal(true);
- products: WritableSignal<Product[]> = signal([]);
+ ingredients: WritableSignal<Ingredient[]> = signal([]);
  expandedOrderId = signal<string | null>(null);
  categories: WritableSignal<Category[]> = signal([]);
 
-  form!:FormGroup<ProductForm>;
+  form!:FormGroup<IngredientsForm>;
 
   constructor(
-    private listProduct: ListProduct,
+    private listIngredient: ListIngredient,
     private listCategory: ListCategory,
-    private createProductService: CreateProductService,
+    private createIngredientService: CreateIngredientService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
-    this.form = this.fb.group<ProductForm>({
+    this.form = this.fb.group<IngredientsForm>({
       name: this.fb.nonNullable.control('', [Validators.required, Validators.minLength(2)]),
       category: this.fb.nonNullable.control('', Validators.required),
-      basePrice: this.fb.nonNullable.control<number | null>(null, [ Validators.min(0)]),
+      extraPrice: this.fb.nonNullable.control(0.0, [Validators.required, Validators.min(0)]),
       description: this.fb.nonNullable.control('', [Validators.required, Validators.minLength(5)]),
     });
 
-    this.loadProduct()
+    this.loadIngredient()
     this.loadCategory()
     
   }
 
-  loadProduct() {
+  loadIngredient() {
     this.loading.set(true);
-    this.listProduct.getProduct().subscribe({
-      next: (products) => {
-        this.products.set(products);
+    this.listIngredient.getIngredient().subscribe({
+      next: (ingredients) => {
+        this.ingredients.set(ingredients);
         this.loading.set(false);
       },
       error: (err) => {
@@ -81,23 +81,22 @@ export class ProductsComponent implements OnInit{
     });
   }
 
-  createCProduct(){
-    if(this.form.invalid) return;
-     const {name, description, basePrice,category}=this.form.getRawValue()
-     const priceToSend = basePrice ?? 0;
+  createCIngredient(){
+    if(this.form.invalid)return;
+    const {name, description, extraPrice,category}=this.form.getRawValue()
 
-    this.createProductService.createProduct(name, description, priceToSend,category).
+    this.createIngredientService.createIngredient(name, description, extraPrice,category).
     subscribe({
-      next:(product)=>{
+      next:(ingredient)=>{
         this.form.reset({
           name:'', 
           description:'', 
-          basePrice:null,
+          extraPrice:0.0,
           category:''
         })
-        this.loadProduct();
-        console.log(product)
-         this.snackBar.open(`Produto "${product.name}" criada com sucesso`,'Fechar',
+        this.loadIngredient();
+        console.log(ingredient)
+         this.snackBar.open(`Produto "${ingredient.name}" criada com sucesso`,'Fechar',
           {duration: 3000,horizontalPosition: 'right',verticalPosition: 'top'});
       }, 
       error:(err)=>{
@@ -109,7 +108,7 @@ export class ProductsComponent implements OnInit{
 
   refresh() {
   this.expandedOrderId.set(null);
-  this.loadProduct()
+  this.loadIngredient()
   }
 
 }
