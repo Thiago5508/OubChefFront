@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { Navbar } from './components/navbar/navbar';
+import { Analytics } from "@vercel/analytics/next"
 
 
 @Component({
